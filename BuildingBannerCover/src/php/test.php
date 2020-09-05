@@ -2,8 +2,10 @@
 
 $sut = require 'BuildingBannerCover.php';
 
-var_dump($sut([1,2,3,4,5]) . ' = ' . 19);
-var_dump($sut([3,1,6]) . ' = ' . 12);
-var_dump($sut([4,7,2,9,7,4]) . ' = ' . 48);
-var_dump($sut([3,6,10,100,34,2]) . ' = ' . 330);
-var_dump($sut([5,3,8,99,101]) . ' = ' . 226);
+var_dump($sut([3,1,4]) . ' = ' . 10);
+var_dump($sut([5,3,2,4]) . ' = ' . 17);
+var_dump($sut([5,3,5,2,1]) . ' = ' . 19);
+var_dump($sut([7,7,3,7,7]) . ' = ' . 35);
+var_dump($sut([1,1,7,6,6,6]) . ' = ' . 30);
+var_dump($sut([100,100,100,100]) . ' = ' . 400);
+var_dump($sut([5,10,5,10]) . ' = ' . 35);
