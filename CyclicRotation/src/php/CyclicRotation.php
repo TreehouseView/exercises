@@ -37,3 +37,11 @@ function solution($A, $K) {
     }
     return $result;
 }
+
+var_dump(implode(',', solution([1,2,3,4], 16)) . ' = 1,2,3,4');
+var_dump(implode(',', solution([1,2,3,4], 17)) . ' = 4,1,2,3');
+var_dump(implode(',', solution([1,2,3,4], 18)) . ' = 3,4,1,2');
+var_dump(implode(',', solution([1,2,3,4], 19)) . ' = 2,3,4,1');
+var_dump(implode(',', solution([1,2,3,4], 20)) . ' = 1,2,3,4');
+var_dump(implode(',', solution([1,2,3,4], 0)) . ' = 1,2,3,4');
+
