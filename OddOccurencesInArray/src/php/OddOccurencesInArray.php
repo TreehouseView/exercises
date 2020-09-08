@@ -26,3 +26,5 @@ function solution($A) {
     }
     return $result;
 }
+
+var_dump(solution([1,1,2,2,3,3,4]) . ' = 4');
