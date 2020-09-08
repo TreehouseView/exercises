@@ -3,9 +3,6 @@
 function solution($A) {
     $minimum = null;
     $total = count($A);
-    $lastKey = $total - 1;
-    $keyRange1 = [];
-    $keyRange2 = [];
 
     $masterTotal = 0;
     for ($x = 0;$x<$total;$x++) {
