@@ -1,3 +1,4 @@
+<?php
 
 function solution($N) {
     $result = 0;
@@ -39,3 +40,5 @@ function solution($N) {
     return $highScore;
 }
 
+
+var_dump(solution(50) . ' = 2');
