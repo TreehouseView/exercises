@@ -1,3 +1,5 @@
+<?php
+
 function solution($A) {
     $isPermutation = 1;
     $missing = 1;
@@ -16,4 +18,4 @@ function solution($A) {
 }
 
 var_dump(solution([4,1,3,2,5]) . ' = 1');
-var_dump(solution(1,2,3,5) . ' = 0');
+var_dump(solution([1,2,3,5]) . ' = 0');
