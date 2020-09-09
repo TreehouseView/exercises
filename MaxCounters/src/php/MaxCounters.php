@@ -63,4 +63,9 @@ function solution($N, $A) {
 }
 
 
-var_dump(solution(5,[1,1,1,2,3,5,6,1,6,2,6,3,6,1]));
+var_dump(implode(',', solution(5,[1,1,1,2,3,5,6,1,6,2,6,3,6,1])) . ' = 7,6,6,6,6');
+var_dump(implode(',', solution(5,[])) . ' = 0,0,0,0,0');
+var_dump(implode(',', solution(5,[1,1,1,1,1])) . ' = 5,0,0,0,0');
+var_dump(implode(',', solution(5,[2,1,2,1,2])) . ' = 2,3,0,0,0');
+var_dump(implode(',', solution(5,[2,1,2,1,4,4,4,6,1,2,2])) . ' = 4,5,3,3,3');
+var_dump(implode(',', solution(5,[2,1,2,1,4,4,4,6,1,2,2,6])) . ' = 5,5,5,5,5');
