@@ -68,11 +68,19 @@ function solution($N, $A) {
           && $counterNumber <= $N) {
             $counterKey = $counterNumber - 1;
 
+            // If reset occured and
+            // has not yet been applied to 
+            // the current counter, apply
+            // new value to counter and
+            // record that the specific reset
+            // has been applied
             if ($resetCacheCount
               && !isset($resetIndex[$counterKey][$resetCacheCount-1])) {
                 $resetIndex[$counterKey][$resetCacheCount-1] = true;
                 $counters[$counterKey] = $resetCache;
             }
+
+            // Increment value for specific counter
             $counters[$counterKey] += 1;
 
             if ($maxCounter < $counters[$counterKey]) {
