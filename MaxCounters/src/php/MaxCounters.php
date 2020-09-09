@@ -1,11 +1,27 @@
 <?php
 
-
-
-// you can write to stdout for debugging purposes, e.g.
-// print "this is a debug message\n";
+/* 
+ * Solution in O(2X+N)
+ * 
+ * The idea is to record the "resets"
+ * that occur instead of applying them
+ * to all counters every time.
+ *
+ * Any additional increments that occur
+ * on a counter after a reset are calculated
+ * accordingly with the reset value applied.
+ *
+ * After processing all operations, we
+ * calculate the final values of the counters
+ * and applying the resets to counters
+ * that have not been updated.
+ * 
+ */
 function solution($N, $A) {
     $counters = [];
+    
+    // Prepare counters and their order
+    // beforehand
     for ($x=0;$x<$N;$x++) {
         $counters[$x] = 0;
     }
@@ -14,11 +30,24 @@ function solution($N, $A) {
     
     /*
      * resetCache: int 
+     * 
+     * Holds the latest reset value
      */
     $resetCache = 0;
+
+    /*
+     * Identifies how many resets
+     * have been performed.
+     *
+     * This property can be used to
+     * indicate the id of the resetCache
+     */
     $resetCacheCount = 0;
     
     /*
+     * Used during processing of operations
+     * to know if the current reset cache
+     * has been applied to the counter
      * {
      *    counterKey: int => 
      *        resetCacheCount: int => 
@@ -26,8 +55,14 @@ function solution($N, $A) {
      * }
      */
     $resetIndex = [];
+
+    /*
+     * Process all operations
+     */
     for ($x=0;$x<$totalOperations;$x++) {
+
         $counterNumber = $A[$x];
+
         // Increase counter
         if ($counterNumber > 0
           && $counterNumber <= $N) {
@@ -52,6 +87,10 @@ function solution($N, $A) {
         }
     }
 
+    /*
+     * Perform final render of counters
+     * before returning
+     */
     for ($x=0;$x<$N;$x++) {
         if ($resetCacheCount
           && (!isset($resetIndex[$x][$resetCacheCount-1]))) {
