@@ -1,8 +1,7 @@
 <?php
 
-// you can write to stdout for debugging purposes, e.g.
-// print "this is a debug message\n";
 
+// Solution in O(N!)
 function solution1($A) {
     $pairs = [];
     $count = 0;
@@ -30,6 +29,8 @@ function display($array) {
     }
 }
 
+// More efficient solution
+// using O(N)
 function solution2($A) {
     $pairs = 0;
     
