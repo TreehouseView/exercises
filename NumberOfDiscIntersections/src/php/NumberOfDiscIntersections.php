@@ -30,4 +30,4 @@ function display($array) {
     }
 }
 
-
+var_dump(solution([1,5,2,1,4,0]) . " = 11");
