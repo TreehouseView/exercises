@@ -96,4 +96,4 @@ function solution2($A) {
     return $pairs;
 }
 
-var_dump(solution([1,5,2,1,4,0]) . " = 11");
+var_dump(solution2([1,5,2,1,4,0]) . " = 11");
