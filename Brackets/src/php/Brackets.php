@@ -34,6 +34,8 @@ function solution($S) {
         }
     }
 
+    // We need to check for hanging
+    // open chars and hanging close chars
     return ($stackCount != 0 || $hangingClose) ? 0 :1;
 }
 
