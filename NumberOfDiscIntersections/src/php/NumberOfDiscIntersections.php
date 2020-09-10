@@ -37,16 +37,31 @@ function solution2($A) {
     // Create index of start and end
     $startIndex = [];
     $endIndex = [];
-    
     $total = count($A);
     $lastKey = $total-1; 
-    
     for ($x=0; $x<$total; $x++) {
+
+        // When creating the start index,
+        // we need to avoid having negative numbers.
+        // This will help when we loop through
+        // the positions later so we can start
+        // with zero (0) instead of a negative no.
         $start = $x - $A[$x];
         if ($start < 0) {
             $start = 0;
         }
         
+        // When creating the end index,
+        // we need to avoid having values
+        // that exceed the last key.
+        // As with the start index, this will
+        // make it easier to determine when
+        // discs end.
+        //
+        // Although I suppose it is possible to
+        // allow negative starts and ends that
+        // exceed the last key as long as we
+        // refactor the later loop accordingly
         $end = $x + $A[$x];
         if ($end > $lastKey) {
             $end = $lastKey;
@@ -67,16 +82,37 @@ function solution2($A) {
         
     }
     
+    // This is where the magic happens.
+    //
+    // Using the start and end indexes,
+    // we walk through each position from
+    // start to finish and calculate the
+    // intersections based on how many "active"
+    // discs there are and how many discs have 
+    // started in the current position.
+    //
+    // Reference: 
+    //    https://stackoverflow.com/questions/4801242/algorithm-to-calculate-number-of-intersecting-discs
     $activeDiscs = 0;
-    // Go through each point
     for ($x=0; $x<$total; $x++) {
         
         // If disc(s) started on 
         // current point
         if (isset($startIndex[$x])
           && $startIndex[$x] > 0) {
+
+            // Add the new pairs created from the active
+            // discs and the discs that started.
             $pairs += $activeDiscs * $startIndex[$x];
+
+            // And then add all the new pairs created
+            // from all the discs that started in
+            // the current position.
             $pairs += ($startIndex[$x] * ($startIndex[$x]-1))/2;
+
+
+            // Just an arbitrary rule defined by the 
+            // challenge
             if ($pairs > 10000000) {
                 $pairs = -1;
                 break;
@@ -90,7 +126,6 @@ function solution2($A) {
         if (isset($endIndex[$x])) {
             $activeDiscs -= $endIndex[$x];
         }
-        
     }
 
     return $pairs;
