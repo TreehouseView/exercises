@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 
-function solution(longString, wordFile) {
+function solution(longStrings, wordFile) {
     fs.readFile(wordFile, (err, data) => {
         if (err) {throw err;}
         let wordIndex = new Map();
@@ -23,7 +23,9 @@ function solution(longString, wordFile) {
                 }
             }
         });
-        console.log(parseString(longString, wordIndex, prefixIndex));
+        longStrings.forEach((longString) => {
+            console.log(parseString(longString, wordIndex, prefixIndex));
+        });
     });
 }
 
@@ -87,7 +89,5 @@ function findViaPrefix(prefix, longString, wordIndex, prefixIndex, myCache) {
 }
 
 
-solution('thequickbrownfoxjumpsoverthelazydog', 'words_alpha.txt');
-solution('Iamking', 'words_alpha.txt');
-solution('Iliketoeatalotofpie', 'words_alpha.txt');
-solution('myfriendgavemeapieceofadvice', 'words_alpha.txt');
+solution(['thequickbrownfoxjumpsoverthelazydog',
+'Iamking','Iliketoeatalotofpie'], __dirname + '/words_alpha.txt');
