@@ -77,25 +77,28 @@ function repeatAllowed($list, $groupCount) {
 function repeatNotAllowed($list, $groupCount) {
     $permutations = 0;
     $total = count($list);
-    $lastKey = $total-1;
 
     $perms = recurse('', $list, $groupCount);
-    //var_dump($perms);
     $permutations = count($perms);
-
+    //var_dump($perms);
     
     return $permutations;
 }
 
 function recurse($prefix, $list, $groupCount) {
-    $runningList = $list;
     $temp = [];
-    for ($y=0,$t1=count($runningList);$y<$t1;$y++) {
+    for ($y=0,$t1=count($list);$y<$t1;$y++) {
         $pfx = $prefix . $list[$y];
         $newList = [];
         if ($groupCount-1) {
             for ($x=0;$x<$t1;$x++) {
-                if ($runningList[$y] == $runningList[$x]) {
+
+                // Since we cannot repeat
+                // the next number, we
+                // skip the number
+                // we already chose
+                // above
+                if ($list[$y] == $list[$x]) {
                     continue;
                 }
                 $newList[] = $list[$x];
