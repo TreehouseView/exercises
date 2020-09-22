@@ -26,11 +26,6 @@ function repeatAllowed($list, $groupCount) {
 
     // We start from the end
     // and work our way to the beginning
-    $collection = $list;
-
-    // We skip one loop here
-    // because the initial collection
-    // already has the first loop.
     //
     // Sample run:
     //
@@ -53,6 +48,12 @@ function repeatAllowed($list, $groupCount) {
     //  cc
     //
     // etc.
+    $collection = $list;
+
+    
+    // We skip one loop here
+    // because the initial collection
+    // already has the first loop.
     for ($x=0;$x<$groupCount-1;$x++) {
         $temp = [];
         for ($a=0;$a<$total;$a++) {
@@ -116,11 +117,15 @@ function recurse($prefix, $list, $groupCount) {
 }
 
 
+var_dump(repeatAllowed(['a', 'b', 'c'], 2) . ' = 9');
+var_dump(repeatAllowed(['a', 'b', 'c','d'], 3) . ' = 64');
 var_dump(repeatAllowed(['a', 'b', 'c', 'd'], 4) . ' = 256');
 var_dump(repeatAllowed(['a', 'b', 'c', 'd'], 2) . ' = 16');
 var_dump(repeatAllowed(['a', 'b', 'c', 'd', 'e'], 2) . ' = 25');
 var_dump(repeatAllowed(['a', 'b', 'c', 'd', 'e'], 4) . ' = 625');
 
+var_dump(repeatNotAllowed(['a', 'b', 'c'], 2) . ' = 6');
+var_dump(repeatNotAllowed(['a', 'b', 'c','d'], 3) . ' = 24');
 var_dump(repeatNotAllowed(['a', 'b', 'c', 'd'], 4) . ' = 24');
 var_dump(repeatNotAllowed(['a', 'b', 'c', 'd'], 2) . ' = 12');
 var_dump(repeatNotAllowed(['a', 'b', 'c', 'd'], 1) . ' = 4');
