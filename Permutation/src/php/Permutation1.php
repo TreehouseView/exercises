@@ -110,7 +110,7 @@ function recurse($prefix, $list, $groupCount) {
             $temp = array_merge($temp, recurse($pfx, $newList, $groupCount-1));
         }
         else {
-            $temp[] = $prefix;
+            $temp[] = $pfx;
         }
     }
     return $temp;
