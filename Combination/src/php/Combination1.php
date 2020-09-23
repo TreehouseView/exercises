@@ -31,70 +31,66 @@ function repeatAllowed($list, $groupCount) {
  * 
  */
 function repeatNotAllowed($list, $groupCount) {
-    $result = 0;
 
-    foreach ($list as $value) {
+    $permutations = 0;
+    $total = count($list);
+
+    //displayArray($list, ',', " - $groupCount");
+
+
+    $perms = recurse('', $list, $groupCount);
+    $permutations = count($perms);
+    //displayArray($perms, "\n");
+    
+    return $permutations;
+}
+
+function displayArray($list, $delimiter = ',', $otherDisplay = '') {
+    $counter = 0;
+    foreach($list as $value){
+        if ($counter) {
+            echo $delimiter;
+        }
         echo $value;
+        $counter++;
     }
-    echo ", $groupCount\n";
+    echo ", $otherDisplay\n";
+}
 
-    // Generate all permutations
-    $runningList = $list;
-    for ($x=0;$x<$groupCount-1;$x++) {
-        $temp = [];
-        for ($z=0;$z<count($list);$z++) {
-            for ($y=0;$y<count($runningList);$y++) {
-                $temp[] = $list[$z] . $runningList[$y];
+function recurse($prefix, $list, $groupCount) {
+    $temp = [];
+    for ($y=0,$t1=count($list);$y<$t1;$y++) {
+        $pfx = $prefix . $list[$y];
+        $newList = [];
+        if ($groupCount-1) {
+            for ($x=0;$x<$t1;$x++) {
+
+                // Since we cannot repeat
+                // the next number, we
+                // skip the number
+                // we already chose
+                // above
+                if ($list[$y] == $list[$x]) {
+                    continue;
+                }
+                $newList[] = $list[$x];
             }
         }
-        $runningList = $temp;
-    }
-
-    // Go through each permutation and
-    // find unique instances
-    $unique = [];
-    for ($x=0,$t=count($runningList);$x<$t;$x++) {
-
-        $dupes = [];
-        $l=strlen($runningList[$x]);
-        for ($y=0;$y<$l;$y++) {
-            $dupes[$runningList[$x][$y]] = $runningList[$x][$y];
-        }
-        if (count($dupes) < $l) {
-            continue;
-        }
-        if (!$unique) {
-
-            // Make is easier to perform
-            // lookups where order
-            // does not matter
-            $xyz = array_keys($dupes);
-            asort($xyz);
-            $xyz = implode('', $xyz);
-            $unique[$xyz] = $xyz;
+        if ($newList
+          && $groupCount-1) {
+            $temp = array_merge($temp, recurse($pfx, $newList, $groupCount-1));
         }
         else {
-            $isUnique = 0;
-            $xyz = [];
-            for ($o=0;$o<$l;$o++) {
-                $xyz[] = $runningList[$x][$o];
+            $xtmp = [];
+            for ($x=0,$xtotal=strlen($pfx);$x<$xtotal;$x++) {
+                $xtmp[] = $pfx[$x];
             }
-            asort($xyz);
-            $xyz = implode($xyz);
-
-            if (!isset($unique[$xyz])) {
-                $unique[$xyz] = $xyz;
-            }
+            asort($xtmp);
+            $pfx = implode('', $xtmp);
+            $temp[$pfx] = $pfx;
         }
     }
-
-    foreach ($unique as $key => $value) {
-        echo $key . "\n";
-    }
-
-    $result = count($unique);
-
-    return $result;
+    return $temp;
 }
 
 var_dump(repeatAllowed(['a', 'b', 'c'], 2) . ' = 12');
@@ -111,5 +107,6 @@ var_dump(repeatNotAllowed(['a', 'b', 'c', 'd'], 2) . ' = 6');
 var_dump(repeatNotAllowed(['a', 'b', 'c', 'd'], 1) . ' = 4');
 var_dump(repeatNotAllowed(['a', 'b', 'c', 'd','e','f','g'], 7) . ' = 1');
 var_dump(repeatNotAllowed(['a', 'b', 'c', 'd','e','f','g'], 5) . ' = 21');
+//var_dump(repeatNotAllowed(['a', 'b', 'c', 'd','e','f','g','h','i','j','k','l','m'], 5) . ' = 21');
 
 
