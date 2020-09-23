@@ -33,6 +33,12 @@ function repeatAllowed($list, $groupCount) {
 function repeatNotAllowed($list, $groupCount) {
     $result = 0;
 
+    foreach ($list as $value) {
+        echo $value;
+    }
+    echo ", $groupCount\n";
+
+    // Generate all permutations
     $runningList = $list;
     for ($x=0;$x<$groupCount-1;$x++) {
         $temp = [];
@@ -43,6 +49,9 @@ function repeatNotAllowed($list, $groupCount) {
         }
         $runningList = $temp;
     }
+
+    // Go through each permutation and
+    // find unique instances
     $unique = [];
     for ($x=0,$t=count($runningList);$x<$t;$x++) {
 
@@ -55,30 +64,32 @@ function repeatNotAllowed($list, $groupCount) {
             continue;
         }
         if (!$unique) {
-            $unique[] = $dupes;
+
+            // Make is easier to perform
+            // lookups where order
+            // does not matter
+            $xyz = array_keys($dupes);
+            asort($xyz);
+            $xyz = implode('', $xyz);
+            $unique[$xyz] = $xyz;
         }
         else {
             $isUnique = 0;
-            for ($z=0;$z<count($unique);$z++) {
-                $cc = 0;
-                for ($y=0;$y<$l;$y++) {
-                    if (!isset($unique[$z][$runningList[$x][$y]])) {
-                        break;
-                    }
-                    $cc++;
-                }
-                if ($cc < $l) {
-                    $isUnique++;
-                }
+            $xyz = [];
+            for ($o=0;$o<$l;$o++) {
+                $xyz[] = $runningList[$x][$o];
             }
-            if ($isUnique == count($unique)) {
-                $unique[] = $dupes;
+            asort($xyz);
+            $xyz = implode($xyz);
+
+            if (!isset($unique[$xyz])) {
+                $unique[$xyz] = $xyz;
             }
         }
     }
 
-    foreach ($unique as $value) {
-        echo implode(',', array_keys($value)) . "\n";
+    foreach ($unique as $key => $value) {
+        echo $key . "\n";
     }
 
     $result = count($unique);
