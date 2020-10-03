@@ -27,71 +27,58 @@ function repeatAllowed($list, $groupCount) {
  *
  * n!/r!(n-r)!
  *
- * Not an optimal version
- * 
  */
 function repeatNotAllowed($list, $groupCount) {
 
-    $permutations = 0;
+    $combinations = [];
     $total = count($list);
 
-    //displayArray($list, ',', " - $groupCount");
-
-
-    $perms = recurse('', $list, $groupCount);
-    $permutations = count($perms);
-    //displayArray($perms, "\n");
-    
-    return $permutations;
-}
-
-function displayArray($list, $delimiter = ',', $otherDisplay = '') {
-    $counter = 0;
-    foreach($list as $value){
-        if ($counter) {
-            echo $delimiter;
-        }
-        echo $value;
-        $counter++;
+    if ($groupCount > $total) {
+        throw new Exception('INVALID_GROUP_COUNT');
     }
-    echo ", $otherDisplay\n";
-}
 
-function recurse($prefix, $list, $groupCount) {
-    $temp = [];
-    for ($y=0,$t1=count($list);$y<$t1;$y++) {
-        $pfx = $prefix . $list[$y];
-        $newList = [];
-        if ($groupCount-1) {
-            for ($x=0;$x<$t1;$x++) {
+    // Calculate combinations
+    $stack1 = [];
+    for ($xcount=0;$xcount<$groupCount;$xcount++) {
+        $stack1[] = $xcount;
+    }
+    $stack1LastKey = $groupCount-1;
+    while ($stack1[0] <= $total-$groupCount) {
 
-                // Since we cannot repeat
-                // the next number, we
-                // skip the number
-                // we already chose
-                // above
-                if ($list[$y] == $list[$x]) {
-                    continue;
-                }
-                $newList[] = $list[$x];
-            }
+        // Always increment last key
+        // until it reaches the end of the list
+        while ($stack1[$stack1LastKey] < $total) {
+            $combinations[] = $stack1;
+            $stack1[$stack1LastKey] += 1;
         }
-        if ($newList
-          && $groupCount-1) {
-            $temp = array_merge($temp, recurse($pfx, $newList, $groupCount-1));
+
+        // Determine new start
+        $x = $stack1LastKey-1;
+        if ($x < 0) {
+            break;
         }
-        else {
-            $xtmp = [];
-            for ($x=0,$xtotal=strlen($pfx);$x<$xtotal;$x++) {
-                $xtmp[] = $pfx[$x];
-            }
-            asort($xtmp);
-            $pfx = implode('', $xtmp);
-            $temp[$pfx] = $pfx;
+        while ($stack1[$x] >= $total-($stack1LastKey-$x)) {
+            $x--;
+        }
+
+        // Update stack with new values
+        $newValue = $stack1[$x] + 1;
+        for ($y=$x;$y<$groupCount;$y++) {
+            $stack1[$y] = $newValue;
+            $newValue++;
         }
     }
-    return $temp;
+
+    foreach ($combinations as $combo) {
+        foreach ($combo as $pos) {
+            //echo $list[$pos];
+        }
+        //echo "\n";
+    }
+
+    return count($combinations);
 }
+
 
 var_dump(repeatAllowed(['a', 'b', 'c'], 2) . ' = 12');
 var_dump(repeatAllowed(['a', 'b', 'c', 'd'], 3) . ' = 120');
@@ -107,6 +94,8 @@ var_dump(repeatNotAllowed(['a', 'b', 'c', 'd'], 2) . ' = 6');
 var_dump(repeatNotAllowed(['a', 'b', 'c', 'd'], 1) . ' = 4');
 var_dump(repeatNotAllowed(['a', 'b', 'c', 'd','e','f','g'], 7) . ' = 1');
 var_dump(repeatNotAllowed(['a', 'b', 'c', 'd','e','f','g'], 5) . ' = 21');
-//var_dump(repeatNotAllowed(['a', 'b', 'c', 'd','e','f','g','h','i','j','k','l','m'], 5) . ' = 21');
+var_dump(repeatNotAllowed(['a', 'b', 'c', 'd','e','f','g'], 3) . ' = 35');
+var_dump(repeatNotAllowed(['a', 'b', 'c', 'd','e','f','g','h','i','j'], 5) . ' = 252');
+var_dump(repeatNotAllowed(['a', 'b', 'c', 'd','e','f','g','h','i','j','k','l','m','n','o','p','q'], 9) . ' = 24310');
 
 
