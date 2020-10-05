@@ -47,7 +47,9 @@ function repeatAllowed(list, groupCount) {
  *
  */
 function repeatNotAllowed(list, groupCount) {
-    var permutations = list;
+    var permutations = list.map((value, key) => {
+        return key.toString();
+    });
 
     // Loop through each group count
     for (let x=1;x<groupCount;x++) {
@@ -58,12 +60,15 @@ function repeatNotAllowed(list, groupCount) {
 
             // determine new list
             let indexer = createIndex(Array.from(permutations[y]));
-            let newList = list.filter((value) => {
-                return !indexer.has(value);
+            let newList = [];
+            list.forEach((value, index) => {
+                if (!indexer.has(index.toString())) {
+                    newList.push(index.toString());
+                }
             });
 
             newList.forEach((value) => {
-                temp.push(permutations[y] + value);
+                temp.push(permutations[y] + ',' + value);
             });
         }
 
