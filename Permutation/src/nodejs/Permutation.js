@@ -15,7 +15,25 @@
  * 
  */
 function repeatAllowed(list, groupCount) {
-    var permutations = [];
+
+    var permutations = list;
+
+    // Loop through each group count
+    for (let x=1;x<groupCount;x++) {
+        let temp = [];
+
+        // Loop through each list
+        for (let y=0;y<list.length;y++) {
+
+            // Loop through each generated permutation
+            for (let z=0;z<permutations.length;z++) {
+                temp.push(list[y] + permutations[z]);
+            }
+        }
+
+        // Update list with new permutations
+        permutations = temp;
+    }
 
     return permutations.length;
 }
@@ -29,12 +47,48 @@ function repeatAllowed(list, groupCount) {
  *
  */
 function repeatNotAllowed(list, groupCount) {
-    var permutations = [];
+    var permutations = list;
+
+    // Loop through each group count
+    for (let x=1;x<groupCount;x++) {
+        let temp = [];
+
+        // Loop through each generated permutation
+        for (let y=0;y<permutations.length;y++) {
+
+            // determine new list
+            let indexer = createIndex(Array.from(permutations[y]));
+            let newList = list.filter((value) => {
+                return !indexer.has(value);
+            });
+
+            newList.forEach((value) => {
+                temp.push(permutations[y] + value);
+            });
+        }
+
+        // Update permutation list
+        permutations = temp;
+    }
 
     return permutations.length;
 }
 
+function createIndex(list) {
+    var mapper = new Map();
+    list.forEach((value) => {
+        mapper.set(value,value);
+    });
+    return mapper;
+}
 
+function factorial(n) {
+    var accum = 1;
+    for (let x=1;x<=n;x++) {
+        accum *= x;
+    }
+    return accum;
+}
 
 
 console.log(repeatAllowed(['a', 'b', 'c'], 2) + ' = 9');
