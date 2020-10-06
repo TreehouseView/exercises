@@ -44,3 +44,7 @@ var_dump(solution('{([])}') . ' = 1');
 var_dump(solution('{[])}') . ' = 0');
 var_dump(solution('}}}') . ' = 0');
 var_dump(solution('[[[[') . ' = 0');
+var_dump(solution('[[[') . ' = 0');
+var_dump(solution('[[[]]]') . ' = 1');
+var_dump(solution('(){}[]') . ' = 1');
+var_dump(solution('(){}[') . ' = 0');
