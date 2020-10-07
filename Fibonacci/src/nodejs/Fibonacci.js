@@ -12,7 +12,10 @@ function solution(N) {
     return result;
 }
 
+
 console.log(solution(21));
 console.log(solution(100));
 console.log(solution(1));
 console.log(solution(0));
+console.log(solution(10000));
+
